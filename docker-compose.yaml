@@ -1,0 +1,17 @@
+
+version: "3.6"
+services:
+  service-one:
+    build: "../service-one" # local path to service one's Dockerfile
+    ports:
+      - "3200" # port1 server is running on locally
+  service-two:
+    build: "../service-two" # local path to service one's Dockerfile
+    ports:
+      - "3201" # port2 server is running on locally
+  nginx:
+    build: "."
+    ports:
+      - "80:80"
+    depends_on:
+      - "service-one" #add multiple if they depend on eachother
