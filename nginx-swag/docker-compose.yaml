@@ -1,0 +1,22 @@
+services:
+  service-one:
+    build: "../service-one"
+    ports:
+      - "3500"
+  swag:
+    image: lscr.io/linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - URL=YOUR.URL.com #change to your url
+      - VALIDATION=http
+    volumes:
+      - /home/aptalca/appdata/swag:/config
+    ports:
+      - 443:443
+      - 80:80
+    restart: unless-stopped
