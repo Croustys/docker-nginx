@@ -1,8 +1,10 @@
 services:
-  service-one:
-    build: "../service-one"
+  blog-backend:
+    build: "../blog-backend"
     ports:
       - "3500"
+    container_name: blog-backend
+    restart: always
   swag:
     image: lscr.io/linuxserver/swag
     container_name: swag
@@ -12,7 +14,8 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - URL=YOUR.URL.com #change to your url
+      - URL=api.barabasakos.hu
+      - EXTRA_DOMAINS=links.barabasakos.hu
       - VALIDATION=http
     volumes:
       - /home/aptalca/appdata/swag:/config
@@ -20,3 +23,15 @@ services:
       - 443:443
       - 80:80
     restart: unless-stopped
+  musicbot:
+    build: "../MusicBot"
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
+    container_name: musicbot
+    restart: always
+  links:
+    build: "../url_shortener"
+    ports:
+      - "3600"
+    container_name: links
+    restart: always
